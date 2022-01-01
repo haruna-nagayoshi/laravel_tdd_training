@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+
+  training_db:
+    image: mysql:5.7
+    container_name: training_db
+    ports:
+      - 50000:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_DATABASE: training
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  training_php-fpm:
+    build: docker/php-fpm
+    container_name: training_php-fpm
+    volumes:
+      - ./laravel:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - training_db
+
+  training_nginx:
+    image: nginx:1.20.1
+    container_name: training_nginx
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./laravel:/usr/share/nginx/html
+    ports:
+      - 21212:80
+    depends_on:
+      - training_php-fpm
+
+  training_composer:
+    container_name: training_composer
+    image: composer:2.0.12
+    volumes:
+      - ./laravel:/app
+    entrypoint: composer
+
+  training_node:
+    container_name: training_node
+    image: node:14.18.1
+    volumes:
+      - ./laravel:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: yarn
+
+volumes:
+  mysql_data:
+    driver: local
