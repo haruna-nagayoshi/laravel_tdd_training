@@ -16,6 +16,18 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
 
+  training_db_for_test:
+    image: mysql:5.7
+    container_name: training_db_for_test
+    ports:
+      - 50001:3306
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_DATABASE: training
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
   training_php-fpm:
     build: docker/php-fpm
     container_name: training_php-fpm
