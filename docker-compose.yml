@@ -21,6 +21,8 @@ services:
     container_name: training_db_for_test
     ports:
       - 50001:3306
+    volumes:
+      - mysql_data_for_test:/var/lib/mysql
     environment:
       TZ: Asia/Tokyo
       MYSQL_DATABASE: training
@@ -65,4 +67,6 @@ services:
 
 volumes:
   mysql_data:
+    driver: local
+  mysql_data_for_test:
     driver: local
