@@ -29,4 +29,16 @@ class TaskTest extends TestCase
         $task2 = Task::where('title', '終了したタスク')->first();
         $this->assertTrue((bool) $task2->executed);
     }
+
+    public function testGetTaskDetail()
+    {
+        $task = Task::find(2);
+        $this->assertEquals('テストタスク', $task->title);
+    }
+
+    public function testGetTaskDetailNotExists()
+    {
+        $task = Task::find(0);
+        $this->assertNull($task);
+    }
 }
