@@ -19,21 +19,33 @@
     <h2>Tasks Detail</h2>
     <div class="row">
         <div class="col-md-offset-2 col-md-8">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <td>タイトル</td>
-                    <td>実行済み</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ $task->title }}</td>
-                    <td><input type="checkbox"
-                               name="checkbox_{{ $task->id }}" {{ $task->executed ? 'checked="checked"' : '' }}></td>
-                </tr>
-                </tbody>
-            </table>
+            {{ Form::open([
+                'route' => [
+                    'task.put',
+                    $task->id,
+                    ],
+                'method' => 'put',
+            ]) }}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <td>タイトル</td>
+                        <td>実行済み</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            {{ Form::text('title', $task->title, ['id' => 'title', 'class' => 'form-control']) }}
+                        </td>
+                        <td>
+                            {{ Form::checkbox('executed', true, $task->executed) }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            {{ Form::submit('更新', ['class' => 'btn btn-primary']) }}
+            {{ Form::close() }}
         </div>
     </div>
 </div>
