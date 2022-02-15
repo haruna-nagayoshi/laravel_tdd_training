@@ -18,3 +18,4 @@ Route::get('/', function () {
 
 Route::get('/tasks', Actions\GetTasksAction::class)->name('tasks.get');
 Route::get('/tasks/{id}', Actions\GetTaskAction::class)->where('id', '[0-9]+')->name('task.get');
+Route::put('/tasks/{id}', Actions\PutTaskAction::class)->where('id', '[0-9]+')->name('task.put');
