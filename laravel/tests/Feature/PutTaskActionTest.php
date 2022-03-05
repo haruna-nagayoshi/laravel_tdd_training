@@ -2,18 +2,26 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PutTaskActionTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    private $task;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->task = Task::create([
+            'title' => 'テストタスク',
+            'executed' => false,
+        ]);
+    }
+
     public function testPutTaskPath()
     {
         $data = [
@@ -22,10 +30,10 @@ class PutTaskActionTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', $data);
 
-        $response = $this->put('/tasks/1', $data);
+        $response = $this->put(sprintf('/tasks/%s', $this->task->id), $data);
 
         $response->assertStatus(302)
-            ->assertRedirect('/tasks/1');
+            ->assertRedirect(sprintf('/tasks/%s', $this->task->id));
 
         $this->assertDatabaseHas('tasks', $data);
     }
@@ -39,10 +47,10 @@ class PutTaskActionTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', $data);
 
-        $response = $this->put('/tasks/2', $data);
+        $response = $this->put(sprintf('/tasks/%s', $this->task->id), $data);
 
         $response->assertStatus(302)
-            ->assertRedirect('/tasks/2');
+            ->assertRedirect(sprintf('/tasks/%s', $this->task->id));
 
         $this->assertDatabaseHas('tasks', $data);
     }

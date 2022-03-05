@@ -2,20 +2,28 @@
 
 namespace Tests\Feature;
 
+use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class GetTaskActionTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    use RefreshDatabase;
+
+    private $task;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->task = Task::create([
+            'title' => 'テストタスク',
+            'executed' => false,
+        ]);
+    }
+
     public function testGetTaskAction()
     {
-        $response = $this->get('/tasks/1');
+        $response = $this->get(sprintf('/tasks/%s', $this->task->id));
 
         $response->assertStatus(200);
     }
