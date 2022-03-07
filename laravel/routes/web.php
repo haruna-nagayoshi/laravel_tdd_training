@@ -21,3 +21,4 @@ Route::get('/tasks/create', Actions\Task\GetCreateAction::class)->name('tasks.cr
 Route::post('/tasks', Actions\Task\PostTaskAction::class)->name('tasks.store');
 Route::get('/tasks/{id}', Actions\GetTaskAction::class)->where('id', '[0-9]+')->name('task.get');
 Route::put('/tasks/{id}', Actions\PutTaskAction::class)->where('id', '[0-9]+')->name('task.put');
+Route::delete('/tasks/{id}', Actions\Task\DeleteTaskAction::class)->name('tasks.delete');

@@ -48,6 +48,19 @@
             {{ Form::close() }}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            {{ Form::open([
+                'route' => [
+                    'tasks.delete',
+                    'id' => $task->id,
+                ],
+                'method' => 'delete'
+            ]) }}
+            {{ Form::submit('削除', ['class' => 'btn btn-danger']) }}
+            {{ Form::close() }}
+        </div>
+    </div>
 </div>
 </body>
 </html>
