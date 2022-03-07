@@ -5,6 +5,7 @@ namespace App\Http;
 class Payload
 {
     public const CREATED = 'CREATED';
+    public const DELETED = 'DELETED';
 
     private string $status;
 
