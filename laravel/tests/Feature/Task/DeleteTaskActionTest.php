@@ -21,7 +21,7 @@ class DeleteTaskActionTest extends TestCase
 
     public function testDeleteTaskAction(): void
     {
-        $this->assertDatabaseHas('tasks', $this->task->toArray());
+        $this->assertModelExists($this->task);
 
         $response = $this->delete(sprintf('/tasks/%s', $this->task->id));
 
