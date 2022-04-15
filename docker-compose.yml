@@ -59,7 +59,7 @@ services:
 
   training_node:
     container_name: training_node
-    image: node:14.18.1
+    image: node:16.14.2
     volumes:
       - ./laravel:/var/www/html
     working_dir: /var/www/html

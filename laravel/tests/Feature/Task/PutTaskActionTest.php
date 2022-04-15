@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Task;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,11 +11,14 @@ class PutTaskActionTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $task;
+    private User $user;
+    private Task $task;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->user = User::factory()->create();
 
         $this->task = Task::create([
             'title' => 'テストタスク',
@@ -22,7 +26,7 @@ class PutTaskActionTest extends TestCase
         ]);
     }
 
-    public function testPutTaskPath()
+    public function testPutTaskAction(): void
     {
         $data = [
             'title' => 'test title',
@@ -30,7 +34,7 @@ class PutTaskActionTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', $data);
 
-        $response = $this->put(sprintf('/tasks/%s', $this->task->id), $data);
+        $response = $this->actingAs($this->user)->put(sprintf('/tasks/%s', $this->task->id), $data);
 
         $response->assertStatus(302)
             ->assertRedirect(sprintf('/tasks/%s', $this->task->id));
@@ -38,7 +42,7 @@ class PutTaskActionTest extends TestCase
         $this->assertDatabaseHas('tasks', $data);
     }
 
-    public function testPutTaskPath2()
+    public function testPutTaskAction2(): void
     {
         $data = [
             'title' => 'テストタスク2',
@@ -47,11 +51,22 @@ class PutTaskActionTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', $data);
 
-        $response = $this->put(sprintf('/tasks/%s', $this->task->id), $data);
+        $response = $this->actingAs($this->user)->put(sprintf('/tasks/%s', $this->task->id), $data);
 
         $response->assertStatus(302)
             ->assertRedirect(sprintf('/tasks/%s', $this->task->id));
 
         $this->assertDatabaseHas('tasks', $data);
+    }
+
+    public function testNotAuthenticated(): void
+    {
+        $data = [
+            'title' => 'テストタスク',
+        ];
+
+        $response = $this->put(sprintf('/tasks/%s', $this->task->id), $data);
+
+        $response->assertRedirect('/login');
     }
 }
