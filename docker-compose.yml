@@ -52,7 +52,7 @@ services:
 
   training_composer:
     container_name: training_composer
-    image: composer:2.0.12
+    image: composer:2.2.25
     volumes:
       - ./laravel:/app
     entrypoint: composer
