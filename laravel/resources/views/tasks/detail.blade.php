@@ -19,13 +19,7 @@
     <h2>Tasks Detail</h2>
     <div class="row">
         <div class="col-md-offset-2 col-md-8">
-            {{ Form::open([
-                'route' => [
-                    'task.put',
-                    $task->id,
-                    ],
-                'method' => 'put',
-            ]) }}
+            {{ html()->form('PUT', route('task.put', $task->id))->open()}}
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -36,29 +30,26 @@
                     <tbody>
                     <tr>
                         <td>
-                            {{ Form::text('title', $task->title, ['id' => 'title', 'class' => 'form-control']) }}
+                            {{ html()->text('title', $task->title)
+                                ->id('title')
+                                ->class('form-control')
+                            }}
                         </td>
                         <td>
-                            {{ Form::checkbox('executed', true, $task->executed) }}
+                            {{ html()->checkbox('executed', $task->executed) }}
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            {{ Form::submit('更新', ['class' => 'btn btn-primary']) }}
-            {{ Form::close() }}
+            {{ html()->submit('更新')->class('btn btn-primary') }}
+            {{ html()->form()->close() }}
         </div>
     </div>
     <div class="row">
         <div class="col-md-offset-2 col-md-8">
-            {{ Form::open([
-                'route' => [
-                    'tasks.delete',
-                    'id' => $task->id,
-                ],
-                'method' => 'delete'
-            ]) }}
-            {{ Form::submit('削除', ['class' => 'btn btn-danger']) }}
-            {{ Form::close() }}
+            {{ html()->form('DELETE', route('tasks.delete', $task->id))->open()}}
+            {{ html()->submit('削除')->class('btn btn-danger') }}
+            {{ html()->form()->close() }}
         </div>
     </div>
 </div>

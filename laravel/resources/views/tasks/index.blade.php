@@ -19,7 +19,7 @@
     <h2>Tasks List</h2>
     <div class="row">
         <div class="col-md-2">
-            {{ link_to_route('tasks.create', '新規追加', [], ['class' => 'btn btn-primary btn-block']) }}
+            {{ html()->a(route('tasks.create'), '新規追加')->class('btn btn-primary btn-block') }}
         </div>
     </div>
     <ul>
